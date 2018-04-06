@@ -4,12 +4,12 @@ from tweepy import Stream
 import urllib2, json
 
 #Set credentials
-CONSUMER_KEY = 'oi2mjNdG7A7rrrVNGJTlNFmq1'
-CONSUMER_SECRET = 'aBE1n0WgDNrej0nxGS9ov6fWFuhNtBlJBdg0iY9fMHQaz7zF4V'
-ACCESS_TOKEN_KEY = '59915904-l5jnitYxrqZkXcltAplIRS7sGLQvRKGUduutToCZl'
-ACCESS_TOKEN_SECRET = 'Jhwe2uPrpZG7Jk984LG9zgjXirzwERLn5h4u7s42k2BlH'
-path = '/local1/luiz/tweets/'
-filename= 'tweets_campinas.json'
+CONSUMER_KEY = 'YOUR_CONSUMER_KEY'
+CONSUMER_SECRET = 'YOUR_CONSUMER_SECRET'
+ACCESS_TOKEN_KEY = 'YOUR_ACCESS_TOKEN_KEY'
+ACCESS_TOKEN_SECRET = 'YOUR_ACCESS_TOKEN_SECRET'
+path = 'YOUR_PATH'
+filename= 'YOUR_FILENAME'
 
 #Autentica a API com as credenciais
 auth = OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)

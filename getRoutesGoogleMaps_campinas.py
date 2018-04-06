@@ -3,7 +3,7 @@ import time
 from datetime import datetime
 import googlemaps
 
-CONSUMER_KEY_2 = 'AIzaSyAMupPCPeb41yX0TiQv03Yp2lpoPgi2XEc' #Luiz
+CONSUMER_KEY_2 = 'YOUR_CONSUMER_KEY'
 #Ultimo dia de coleta
 time_final = 1577836799  #Tue, 31 Dec 2019 23:59:59 GMT
 current_time = time.time()
