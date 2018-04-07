@@ -48,6 +48,9 @@ def plottingHeatmap(path, key, coords, city):
 	gmap.draw(path+fname)
 	return
 
+'''
+	Faz o slice temporal dos dados obtidos pelo no Twitter
+'''
 from pytz import timezone
 from time import time
 from datetime import datetime
@@ -94,13 +97,34 @@ def slicingDocsHour(docs):
 	return list_docs									   # agora temos uma lista com varias sublistas, onde cada sublista e referente
 														   # aos tweets gerados em um determinado dia e horario.
 
+'''
+	Elimina possiveis ruidos dos dados obtidos
+'''
+def deleteBot(docs):
+	list_docs = []											# inicializa-se uma lista onde serao armazenados os twetts sem bots
+	for key, value in docs.iteritems():						# percorremos as listas associadas a cada chave e, caso as ocorrencias daquela coordenada
+		for tweet in value:									# seja inferior a 50 adicionamos o tweet a lista, nao nos preocuparemos com as chaves pois depois
+			count = countCoords(tweet["coords"],value)		# faremos um novo slice dos dados, entao ter os tweets com bots eliminados eh o suficiente
+			if count < 50:
+				list_docs += tweet
+
+	return list_docs
+
+def countCoords(coord, docs):
+	counter = 0												
+	for tweet in docs:
+		if docs["coords"] == coord:
+			counter += 1
+
+	return counter
+
 #----------------------------- MAIN -----------------------------
 def worker(city):
 	path_read = '/Users/luizeduardocartolano/Dropbox/DUDU/Unicamp/Iniciacao_Cientifica/workspace/Dados'	# caminho para o arquivo de dados
 	path_heatMap = '/Users/luizeduardocartolano/Dropbox/DUDU/Unicamp/Iniciacao_Cientifica/workspace/Dados/heatMaps'	# caminho para a pasta onde serao salvos os heatMaps
 	docs = read(path_read,'tweets_campinas.json')			# coloca os tweets que antes estavam no arquivo .json em uma lista
 	docs = slicingDocsDay(docs)								# tweets divididos por dia da semana
-															# elimina-se os bots
+	docs = deleteBot(docs)									# elimina-se os bots
 	tweets = slicingDocsHour(docs)							# tweets divididos por dia e hora
 
 	for key,value in tweets.iteritems():					# percorremos o dicionario de listas de coordenadas
