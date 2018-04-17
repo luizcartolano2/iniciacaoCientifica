@@ -1,0 +1,48 @@
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<title>Google Maps - pygmaps </title>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=visualization&sensor=true_or_false"></script>
+<script type="text/javascript">
+	function initialize() {
+		var centerlatlng = new google.maps.LatLng(-22.907104, -47.063240);
+		var myOptions = {
+			zoom: 10,
+			center: centerlatlng,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+var heatmap_points = [
+new google.maps.LatLng(-22.743246, -47.354556),
+new google.maps.LatLng(-22.950000, -47.333300),
+new google.maps.LatLng(-22.799803, -47.117868),
+new google.maps.LatLng(-23.092381, -46.962819),
+new google.maps.LatLng(-22.667724, -46.986612),
+new google.maps.LatLng(-22.905525, -47.047253),
+new google.maps.LatLng(-22.898920, -47.050630),
+new google.maps.LatLng(-22.963620, -47.120277),
+new google.maps.LatLng(-23.006492, -46.837212),
+new google.maps.LatLng(-22.891468, -47.075938),
+new google.maps.LatLng(-23.006492, -46.837212),
+];
+
+var pointArray = new google.maps.MVCArray(heatmap_points);
+var heatmap;
+heatmap = new google.maps.visualization.HeatmapLayer({
+
+data: pointArray
+});
+heatmap.setMap(map);
+heatmap.set('threshold', 0);
+heatmap.set('radius', 10);
+heatmap.set('opacity', 0.600000);
+heatmap.set('dissipating', true);
+	}
+</script>
+</head>
+<body style="margin:0px; padding:0px;" onload="initialize()">
+	<div id="map_canvas" style="width: 100%; height: 100%;"></div>
+</body>
+</html>

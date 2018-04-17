@@ -3,6 +3,10 @@
 	e salvar em uma lista de dict.
 '''
 import json
+from pytz import timezone
+from time import time
+from datetime import datetime
+import gmplot
 
 def read(path, fname):
 	tweets = []												# inicia uma lista vazia para os tweets
@@ -22,7 +26,6 @@ def read(path, fname):
 '''
 	Plot heat map a partir de uma lista de coordenadas.
 '''
-import gmplot
 
 def plottingHeatmap(path, key, coords, city):
 	fname = 'heatmap_'+city+'_'+key+'.html'
@@ -40,21 +43,21 @@ def plottingHeatmap(path, key, coords, city):
 	else:
 		print("PLOT ERROR: invalid city\n")
 		return
-	heat_lats = [coord[0] for coord in coords] # Seleciona as latitudes
-	heat_lngs = [coord[1] for coord in coords] # Seleciona as longitudes
-	# Gera o plot
-	gmap.heatmap(heat_lats, heat_lngs,threshold=0)
-	# Salva como arquivo .html
-	gmap.draw(path+fname)
+	heat_lats = [coord[1] for coord in coords] # Seleciona as latitudes
+	heat_lngs = [coord[0] for coord in coords] # Seleciona as longitudes
+	if len(heat_lats):
+		# print(heat_lats, heat_lngs)
+		# stop = raw_input()
+		# Gera o plot
+		gmap.heatmap(heat_lats, heat_lngs,threshold=0)
+		# Salva como arquivo .html
+		gmap.draw(path+fname)
+
 	return
 
 '''
 	Faz o slice temporal dos dados obtidos pelo no Twitter
 '''
-from pytz import timezone
-from time import time
-from datetime import datetime
-
 def getDate(chartime, tz):
 	timestamp = float(chartime)
 	try:
@@ -75,7 +78,7 @@ def slicingDocsDay(docs):
 	list_docs = {}
 	for doc in docs:
 		date = getDate(doc["time"], doc["timezone"])
-		key = str(date.day)+str(date.month)+str(date.year)) # A chave do dicionario e definida pelo dia, mes e ano
+		key = str(date.day)+str(date.month)+str(date.year) # A chave do dicionario e definida pelo dia, mes e ano
 		try:
 			list_docs[key] += [doc]						   # Se ja houver alguma lista de tweets para a chave, cocatena o novo tweet a lista
 		except:
@@ -88,7 +91,7 @@ def slicingDocsHour(docs):
 	list_docs = {}
 	for doc in docs:
 		date = getDate(doc["time"], doc["timezone"])
-		key = str(date.day)+str(date.month)+str(date.year)+str(date.hour) # A chave do dicionario e definida pelo dia, mes, ano e hora
+		key = str(date.day)+str(date.month)+str(date.year) # A chave do dicionario e definida pelo dia, mes, ano e hora
 		try:
 			list_docs[key] += [doc]						   # Se ja houver alguma lista de tweets para a chave, cocatena o novo tweet a lista
 		except:
@@ -102,31 +105,34 @@ def slicingDocsHour(docs):
 '''
 def deleteBot(docs):
 	list_docs = []											# inicializa-se uma lista onde serao armazenados os twetts sem bots
-	for key, value in docs.iteritems():						# percorremos as listas associadas a cada chave e, caso as ocorrencias daquela coordenada
-		for tweet in value:									# seja inferior a 50 adicionamos o tweet a lista, nao nos preocuparemos com as chaves pois depois
-			count = countCoords(tweet["coords"],value)		# faremos um novo slice dos dados, entao ter os tweets com bots eliminados eh o suficiente
-			if count < 50:
-				list_docs += tweet
+	for doc in docs:
+		count = countCoords(doc["coords"],docs)
+		if count <= 10:
+			list_docs.append(doc)
 
+	del docs[:]
 	return list_docs
 
 def countCoords(coord, docs):
-	counter = 0												
+	counter = 0
 	for tweet in docs:
-		if docs["coords"] == coord:
+		if tweet["coords"] == coord:
 			counter += 1
 
 	return counter
 
 #----------------------------- MAIN -----------------------------
 def worker(city):
-	path_read = '/Users/luizeduardocartolano/Dropbox/DUDU/Unicamp/Iniciacao_Cientifica/workspace/Dados'	# caminho para o arquivo de dados
-	path_heatMap = '/Users/luizeduardocartolano/Dropbox/DUDU/Unicamp/Iniciacao_Cientifica/workspace/Dados/heatMaps'	# caminho para a pasta onde serao salvos os heatMaps
+	path_read = '/Users/luizeduardocartolano/Dropbox/DUDU/Unicamp/Iniciacao_Cientifica/workspace/Dados/'	# caminho para o arquivo de dados
+	path_heatMap = '/Users/luizeduardocartolano/Dropbox/DUDU/Unicamp/Iniciacao_Cientifica/workspace/Dados/heatMaps/days/'	# caminho para a pasta onde serao salvos os heatMaps
+	print("lendo")
 	docs = read(path_read,'tweets_campinas.json')			# coloca os tweets que antes estavam no arquivo .json em uma lista
-	docs = slicingDocsDay(docs)								# tweets divididos por dia da semana
-	docs = deleteBot(docs)									# elimina-se os bots
+	#docs = slicingDocsDay(docs)								# tweets divididos por dia da semana
+	print("deletando bots")
+	docs = deleteBot(docs)
+	print("slice")									# elimina-se os bots
 	tweets = slicingDocsHour(docs)							# tweets divididos por dia e hora
-
+	print("plotando")
 	for key,value in tweets.iteritems():					# percorremos o dicionario de listas de coordenadas
 		coords = []											# inicializa-se a lista de coordenadas a serem plotadas
 		for tweet in value:									# cada valor (lista de tweets separada por chaves no nosso dicionario), percorremos o conjunto de coordenadas (lat,long)

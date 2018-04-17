@@ -8,7 +8,7 @@
 #Executar com nohup
 #nohup ./monitora.sh &
 
-#Verifica se o arquivo tempor  rio existe e o remove.
+#Verifica se o arquivo temporario existe e o remove.
 if [ -e /tmp/procluiz.tmp ]; then
 rm /tmp/procluiz.tmp
 fi
@@ -21,14 +21,14 @@ while true; do
    for i in "${PROCESSOS[@]}"; do
 
       #Executa o comando ps para todos os usu  rios e filtra com o grep o processo monitorado, depois s  o executados filtros inversos para excluir
-      #apari    es da execu    o do pr  prio grep e do nosso script. O resultado, se existir,    salvo em um arquivo tempor  rio.
+      #aparicoees da execucao do proprio grep e do nosso script. O resultado, se existir,sera salvo em um arquivo temporario.
       ps aux | grep "$i" | grep -v "grep" | grep -v "monitora.sh" > /tmp/procluiz.tmp
 
       #Calcula-se o n  mero de linhas do arquivo criado acima e atribui esse valor    vari  vel A.
       A=$(wc -l /tmp/procluiz.tmp | awk '{print $1}')
 
-      #Se A    maior ou igual a 1 significa que o processo est   em execu    o,
-      #ent  o    salva uma linha contendo um OK para o processo monitorado naquele momento.
+      #Se A    maior ou igual a 1 significa que o processo esta  em execucao,
+      #entao    salva uma linha contendo um OK para o processo monitorado naquele momento.
       #Sen  o    salvo um ERRO no log e temb  m    enviado um email para o administrador do sistema avisando do ocorrido.
       if [ $A -ge 1 ]; then
          echo -e "$i\tOK\t$(date +"%x\t%X")" >> /local1/luiz/monitora/processos.log

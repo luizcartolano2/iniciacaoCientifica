@@ -1,0 +1,56 @@
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<title>Google Maps - pygmaps </title>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=visualization&sensor=true_or_false"></script>
+<script type="text/javascript">
+	function initialize() {
+		var centerlatlng = new google.maps.LatLng(-22.907104, -47.063240);
+		var myOptions = {
+			zoom: 10,
+			center: centerlatlng,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+var heatmap_points = [
+new google.maps.LatLng(-22.966502, -46.845893),
+new google.maps.LatLng(-22.967005, -46.847957),
+new google.maps.LatLng(-22.965678, -46.846173),
+new google.maps.LatLng(-22.877203, -47.198510),
+new google.maps.LatLng(-22.876486, -47.209083),
+new google.maps.LatLng(-22.881042, -47.069182),
+new google.maps.LatLng(-22.892132, -47.206347),
+new google.maps.LatLng(-23.030171, -46.973771),
+new google.maps.LatLng(-22.746901, -47.336151),
+new google.maps.LatLng(-22.707236, -46.987374),
+new google.maps.LatLng(-22.822749, -47.195086),
+new google.maps.LatLng(-22.706895, -46.987905),
+new google.maps.LatLng(-22.751772, -47.322584),
+new google.maps.LatLng(-23.026937, -46.978234),
+new google.maps.LatLng(-22.783348, -47.302746),
+new google.maps.LatLng(-22.876480, -47.208945),
+new google.maps.LatLng(-22.907971, -47.086509),
+new google.maps.LatLng(-22.727460, -47.314100),
+new google.maps.LatLng(-23.020204, -46.983659),
+];
+
+var pointArray = new google.maps.MVCArray(heatmap_points);
+var heatmap;
+heatmap = new google.maps.visualization.HeatmapLayer({
+
+data: pointArray
+});
+heatmap.setMap(map);
+heatmap.set('threshold', 0);
+heatmap.set('radius', 10);
+heatmap.set('opacity', 0.600000);
+heatmap.set('dissipating', true);
+	}
+</script>
+</head>
+<body style="margin:0px; padding:0px;" onload="initialize()">
+	<div id="map_canvas" style="width: 100%; height: 100%;"></div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<title>Google Maps - pygmaps </title>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=visualization&sensor=true_or_false"></script>
+<script type="text/javascript">
+	function initialize() {
+		var centerlatlng = new google.maps.LatLng(-22.907104, -47.063240);
+		var myOptions = {
+			zoom: 10,
+			center: centerlatlng,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+var heatmap_points = [
+new google.maps.LatLng(-22.948769, -47.186765),
+new google.maps.LatLng(-22.951162, -47.186151),
+new google.maps.LatLng(-22.706812, -46.985560),
+new google.maps.LatLng(-22.972914, -46.994400),
+new google.maps.LatLng(-22.886480, -47.067995),
+new google.maps.LatLng(-22.735983, -47.357685),
+new google.maps.LatLng(-22.890310, -47.048849),
+new google.maps.LatLng(-22.903765, -47.011242),
+new google.maps.LatLng(-22.742220, -46.911401),
+new google.maps.LatLng(-22.932774, -47.019480),
+new google.maps.LatLng(-23.065542, -46.845171),
+new google.maps.LatLng(-22.737186, -46.891235),
+new google.maps.LatLng(-22.882923, -47.073547),
+new google.maps.LatLng(-22.882923, -47.073547),
+new google.maps.LatLng(-22.882965, -47.073230),
+new google.maps.LatLng(-22.881813, -47.122530),
+new google.maps.LatLng(-22.854862, -47.045547),
+new google.maps.LatLng(-22.752238, -47.345223),
+];
+
+var pointArray = new google.maps.MVCArray(heatmap_points);
+var heatmap;
+heatmap = new google.maps.visualization.HeatmapLayer({
+
+data: pointArray
+});
+heatmap.setMap(map);
+heatmap.set('threshold', 0);
+heatmap.set('radius', 10);
+heatmap.set('opacity', 0.600000);
+heatmap.set('dissipating', true);
+	}
+</script>
+</head>
+<body style="margin:0px; padding:0px;" onload="initialize()">
+	<div id="map_canvas" style="width: 100%; height: 100%;"></div>
+</body>
+</html>
