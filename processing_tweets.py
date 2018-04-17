@@ -74,25 +74,21 @@ def convertTimestamp(timestamp):
 		timestamp /= 1000		# convert from microseconds to seconds
 	return datetime.fromtimestamp(timestamp)
 
-def slicingDocsDay(docs):
-	list_docs = {}
-	for doc in docs:
-		date = getDate(doc["time"], doc["timezone"])
-		key = str(date.day)+str(date.month)+str(date.year) # A chave do dicionario e definida pelo dia, mes e ano
-		try:
-			list_docs[key] += [doc]						   # Se ja houver alguma lista de tweets para a chave, cocatena o novo tweet a lista
-		except:
-			list_docs[key] = [doc]						   # Caso contrario, inicia a lista de tweets para a chave
-	del docs[:]											   # Antes tinhamos uma lista com todos os tweets (chamada docs),
-	return list_docs									   # agora temos uma lista com varias sublistas, onde cada sublista e referente
-														   # aos tweets gerados em um determinado dia.
-
 def slicingDocsHour(docs):
 	list_docs = {}
 	for doc in docs:
 		date = getDate(doc["time"], doc["timezone"])
-		key = str(date.day)+str(date.month)+str(date.year) # A chave do dicionario e definida pelo dia, mes, ano e hora
+		# if date.hour >= 8 and date.hour <= 12:
+		# 	key = str(date.day)+str(date.month)+str(date.year)+str("manha") # A chave do dicionario e definida pelo dia, mes, ano e hora
+		# elif date.hour > 12 and date.hour <= 20:
+		# 	key = str(date.day)+str(date.month)+str(date.year)+str("tarde") # A chave do dicionario e definida pelo dia, mes, ano e hora
+		# elif date.hour > 20 and date.hour <= 24:
+		# 	key = str(date.day)+str(date.month)+str(date.year)+str("noite") # A chave do dicionario e definida pelo dia, mes, ano e hora
+		# else:
+		# 	key = str(date.day)+str(date.month)+str(date.year)+str("madrugada") # A chave do dicionario e definida pelo dia, mes, ano e hora
+		key = str(date.day)+str(date.month)+str(date.year)+str(date.hour)
 		try:
+			# print(key)
 			list_docs[key] += [doc]						   # Se ja houver alguma lista de tweets para a chave, cocatena o novo tweet a lista
 		except:
 			list_docs[key] = [doc]						   # Caso contrario, inicia a lista de tweets para a chave
@@ -124,7 +120,7 @@ def countCoords(coord, docs):
 #----------------------------- MAIN -----------------------------
 def worker(city):
 	path_read = '/Users/luizeduardocartolano/Dropbox/DUDU/Unicamp/Iniciacao_Cientifica/workspace/Dados/'	# caminho para o arquivo de dados
-	path_heatMap = '/Users/luizeduardocartolano/Dropbox/DUDU/Unicamp/Iniciacao_Cientifica/workspace/Dados/heatMaps/days/'	# caminho para a pasta onde serao salvos os heatMaps
+	path_heatMap = '/Users/luizeduardocartolano/Dropbox/DUDU/Unicamp/Iniciacao_Cientifica/workspace/Dados/heatMaps/hours/'	# caminho para a pasta onde serao salvos os heatMaps
 	print("lendo")
 	docs = read(path_read,'tweets_campinas.json')			# coloca os tweets que antes estavam no arquivo .json em uma lista
 	#docs = slicingDocsDay(docs)								# tweets divididos por dia da semana
