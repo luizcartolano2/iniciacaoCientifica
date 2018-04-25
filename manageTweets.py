@@ -13,26 +13,39 @@ class ManageTweets(object):
         Read .json file and store his content in a dictionary
     '''
     def read(self, path, fname):
-    	tweets = []												# inicia uma lista vazia para os tweets
-    	with open(path+fname, 'r') as file_json:				# abre o arquivo .json em modo de escrita
-    		jsonData = json.load(file_json)						# atribui o conteudo que estava no .json a uma lista
-    		for data in jsonData:								# percorre cada um dos dados do arquivo json
-    			try:											# nem todos os tweets usam localizacao geoespacial, por isso usa-se o try/except
-    				tweet = {}									# inicializa o dicionario de cada tweet
-    				tweet["coords"] = data["coordinates"]["coordinates"]	# associa as coordenadas do tweet a chave "coors" no dict
-    				tweet["time"] = data["timestamp_ms"]					# associa o timestamp do tweet a chave "time" no dict
-    				tweet["timezone"] = "America/Sao_Paulo"					# adiciona o timezone de cada tweet
-    				tweets.append(tweet)									# adiciona o dicionario a lista
+        # starts an empty list for the tweets
+        tweets = []
+        # opens the .json file in write mode
+        with open(path+fname, 'r') as file_json:
+            # assigns the content that was in .json to a list
+            jsonData = json.load(file_json)
+            # traverses each of the data in the json file
+            for data in jsonData:
+                # Not all tweets use geospatial location, so we use try/except
+            	try:
+                    # initialize the dictionary of each tweet
+            		tweet = {}
+                    # associates the coordinates of the tweet with the key "coords" in the dict
+            		tweet["coords"] = data["coordinates"]["coordinates"]
+                    # associates the tweet timestamp with the "time" key in the dict
+            		tweet["time"] = data["timestamp_ms"]
+                    # add the timezone of each tweet
+            		tweet["timezone"] = "America/Sao_Paulo"
+                    # add the dictionary to the list
+            		tweets.append(tweet)
     			except:
-    				pass													# caso o tweet nao possua geolocalizacao segue-se para o proximo
-    	return tweets											# retorna se uma lista de dicionarios
+                    # if the tweet does not have geolocation then go to the next
+            		pass
+        # returns a list of dictionaries
+        return tweets
 
     '''
     	Plot heat map a partir de uma lista de coordenadas.
     '''
     def plottingHeatmap(self, path, key, coords, city):
-    	fname = 'heatmap_'+city+'_'+key+'.html'
-    	# Define a coordenada central da cidade e o nivel de zoom.
+        # sets the filename
+        fname = 'heatmap_'+city+'_'+key+'.html'
+    	# sets the city center coordinate and zoom level.
     	if city == 'chicago':
     		gmap = gmplot.GoogleMapPlotter(41.878114, -87.629799, 10)
     	elif city == 'london':
@@ -46,12 +59,14 @@ class ManageTweets(object):
     	else:
     		print("PLOT ERROR: invalid city\n")
     		return
-    	heat_lats = [coord[1] for coord in coords] # Seleciona as latitudes
-    	heat_lngs = [coord[0] for coord in coords] # Seleciona as longitudes
+        # select latitudes
+    	heat_lats = [coord[1] for coord in coords]
+        # select longitudes
+        heat_lngs = [coord[0] for coord in coords]
     	if len(heat_lats):
-    		# Gera o plot
+    		# generate the plot
     		gmap.heatmap(heat_lats, heat_lngs,threshold=0)
-    		# Salva como arquivo .html
+    		# save as .html file
     		gmap.draw(path+fname)
 
     	return
@@ -62,12 +77,14 @@ class ManageTweets(object):
     def getDate(self, chartime, tz):
     	timestamp = float(chartime)
     	try:
-    		date = datetime.fromtimestamp(timestamp) # Se o timestamp estiver em segundos, a conversao de timestamp p/ date ocorre sem erros
+            # if the timestamp is in seconds, the timestamp conversion to p / date occurs without errors
+            date = datetime.fromtimestamp(timestamp)
     	except:
-    		date = self.convertTimestamp(timestamp)		 # Caso contrario, e preciso converter de microsegundos p/ segundos primeiro
+            # otherwise, I need to convert from microseconds to sec first
+            date = self.convertTimestamp(timestamp)
     	date_aware = timezone(tz).localize(date)
-    	new_date = date_aware.astimezone(timezone(tz))	# Converte de acordo com a timezone do tweet
-    	#print date_aware, new_date
+        # converts according to tweet timezone
+        new_date = date_aware.astimezone(timezone(tz))
     	return new_date
 
     '''
@@ -85,13 +102,16 @@ class ManageTweets(object):
     	list_docs = {}
     	for doc in docs:
     		date = self.getDate(doc["time"], doc["timezone"])
-    		key = str(date.day)+str(date.month)+str(date.year)+str(date.hour)
+            # set the key with the format: daymonthhour
+            key = str(date.day)+str(date.month)+str(date.year)+str(date.hour)
     		try:
-    			list_docs[key] += [doc]						   # Se ja houver alguma lista de tweets para a chave, cocatena o novo tweet a lista
+                # if there is already any list of tweets for the key, cocatena the new tweet the list
+                list_docs[key] += [doc]
     		except:
-    			list_docs[key] = [doc]						   # Caso contrario, inicia a lista de tweets para a chave
-    	return list_docs									   # agora temos uma lista com varias sublistas, onde cada sublista e referente
-    														   # aos tweets gerados em um determinado dia e horario.
+                # otherwise, start the list of tweets for the key
+                list_docs[key] = [doc]
+        # now we have a list with several sublists, where each sublist refers to tweets generated on a particular day and hour.
+        return list_docs
 
     '''
     	Slice the tweets grouping in periods of a day
@@ -101,20 +121,25 @@ class ManageTweets(object):
     	for doc in docs:
     		date = self.getDate(doc["time"], doc["timezone"])
     		if date.hour >= 8 and date.hour <= 12:
-    			key = str(date.day)+str(date.month)+str(date.year)+str("manha") # A chave do dicionario e definida pelo dia, mes, ano e hora
+                # the dictionary key is defined by the day, month, year and morning period
+    			key = str(date.day)+str(date.month)+str(date.year)+str("morning")
     		elif date.hour > 12 and date.hour <= 20:
-    			key = str(date.day)+str(date.month)+str(date.year)+str("tarde") # A chave do dicionario e definida pelo dia, mes, ano e hora
+                # the dictionary key is defined by the day, month, year and afternoon period
+                key = str(date.day)+str(date.month)+str(date.year)+str("afternoon")
     		elif date.hour > 20 and date.hour <= 24:
-    			key = str(date.day)+str(date.month)+str(date.year)+str("noite") # A chave do dicionario e definida pelo dia, mes, ano e hora
+                # the dictionary key is defined by the day, month, year and night period
+                key = str(date.day)+str(date.month)+str(date.year)+str("night")
     		else:
-    			key = str(date.day)+str(date.month)+str(date.year)+str("madrugada") # A chave do dicionario e definida pelo dia, mes, ano e hora
+                # the dictionary key is defined by the day, month, year and dawm period
+                key = str(date.day)+str(date.month)+str(date.year)+str("dawm")
     		try:
-    			# print(key)
-    			list_docs[key] += [doc]						   # Se ja houver alguma lista de tweets para a chave, cocatena o novo tweet a lista
+    			# if there is already any list of tweets for the key, cocatena the new tweet the list
+    			list_docs[key] += [doc]
     		except:
-    			list_docs[key] = [doc]						   # Caso contrario, inicia a lista de tweets para a chave
-    	return list_docs									   # agora temos uma lista com varias sublistas, onde cada sublista e referente
-    														   # aos tweets gerados em um determinado dia e horario.
+                # otherwise, start the list of tweets for the key
+    			list_docs[key] = [doc]
+        # now we have a list with several sublists, where each sublist refers to tweets generated on a particular period of a day.
+        return list_docs
 
     '''
     	Slice the tweets grouping in days
@@ -123,33 +148,44 @@ class ManageTweets(object):
     	list_docs = {}
     	for doc in docs:
     		date = self.getDate(doc["time"], doc["timezone"])
-    		key = str(date.day)+str(date.month)+str(date.year)
+            # set the key with the format: daymonthhour
+            key = str(date.day)+str(date.month)+str(date.year)
     		try:
-    			list_docs[key] += [doc]						   # Se ja houver alguma lista de tweets para a chave, cocatena o novo tweet a lista
+                # if there is already any list of tweets for the key, cocatena the new tweet the list
+                list_docs[key] += [doc]
     		except:
-    			list_docs[key] = [doc]						   # Caso contrario, inicia a lista de tweets para a chave
-    	return list_docs									   # agora temos uma lista com varias sublistas, onde cada sublista e referente
-    														   # aos tweets gerados em um determinado dia e horario.
+                # otherwise, start the list of tweets for the key
+                list_docs[key] = [doc]
+        # now we have a list with several sublists, where each sublist refers to tweets generated on a particular day.
+        return list_docs
 
     '''
     	Eliminates possible noise of the data obtained
     '''
     def deleteBot(self, docs):
-    	list_docs = []											# inicializa-se uma lista onde serao armazenados os twetts sem bots
+        # initializes a list where the twetts without bots will be stored
+        list_docs = []
+        # for going through the tweets looking for a bot
     	for doc in docs:
+            # counting the number of occurrences of a specific geolocation
     		count = self.countCoords(doc["coords"],docs)
     		if count <= 10:
+                # if a specific geolocation appears less than 10 times, we add to our list
     			list_docs.append(doc)
 
+        # deleting the old list of tweets
     	del docs[:]
+        # return the new list free of bots
     	return list_docs
 
     '''
     	Countig the occurrence of same coordinates in a list of coordinates
     '''
     def countCoords(self, coord, docs):
-    	counter = 0
+        # define a counter
+        counter = 0
     	for tweet in docs:
+            # add one to our counter everytime a specific geolocation appears
     		if tweet["coords"] == coord:
     			counter += 1
 
@@ -159,8 +195,13 @@ class ManageTweets(object):
     	Function to manage the plotting of heat maps
     '''
     def plotMap(self, path, tweets, city):
-        for key,value in tweets.iteritems():					# percorremos o dicionario de listas de coordenadas
-    		coords = []											# inicializa-se a lista de coordenadas a serem plotadas
-    		for tweet in value:									# cada valor (lista de tweets separada por chaves no nosso dicionario), percorremos o conjunto de coordenadas (lat,long)
-    			coords.append(tweet["coords"])					# adiciona-se as coordenadas na lista a ser plotada
-    		self.plottingHeatmap(path,key,coords,city)		    # plota o heatmap para cada chave do dicionario
+        # we go through the dictionary of coordinate lists
+        for key,value in tweets.iteritems():
+            # initializes the list of coordinates to be plotted
+            coords = []
+            # each value (tweets list separated by keys in our dictionary), we go through the set of coordinates (lat, long)
+            for tweet in value:
+                # add the coordinates in the list to be plotted
+                coords.append(tweet["coords"])
+            # plots the heatmap for each dictionary key
+            self.plottingHeatmap(path,key,coords,city)
