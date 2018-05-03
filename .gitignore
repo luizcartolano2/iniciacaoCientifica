@@ -4,3 +4,6 @@ Dados/tweets_campinas.json
 Dados/.DS_Store
 *.pyc
 Dados/google/*
+.idea/modules.xml
+.idea/workspace.iml
+.idea/workspace.xml
