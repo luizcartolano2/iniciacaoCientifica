@@ -1,3 +1,5 @@
+__author__ = 'luizcartolano'
+
 from manageTweets import ManageTweets
 
 #----------------------------- MAIN -----------------------------

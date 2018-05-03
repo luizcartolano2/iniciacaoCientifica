@@ -1,3 +1,5 @@
+__author__ = 'luizcartolano'
+
 import json
 from pytz import timezone
 from time import time
