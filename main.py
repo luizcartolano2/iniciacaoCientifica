@@ -5,12 +5,7 @@ from manageGoogle import ManageGoogle
 import os
 
 #----------------------------- MAIN -----------------------------
-def workerTwitter(city):
-    # path to the json file
-    path_twitter = '/Users/luizeduardocartolano/Dropbox/DUDU/Unicamp/Iniciacao_Cientifica/workspace/Dados/'    # caminho para o arquivo de dados
-    # path to the heatMap directory
-    path_heatMapT = '/Users/luizeduardocartolano/Dropbox/DUDU/Unicamp/Iniciacao_Cientifica/workspace/Dados/heatMaps/'    # caminho para a pasta onde serao salvos os heatMaps
-
+def workerTwitter(city, path_twitter, path_heatMapT):
     # instance the managerTweets object
     manager = ManageTweets()
 
@@ -42,9 +37,7 @@ def workerTwitter(city):
 
     return
 
-def workerGoogle():
-    path_google = '/Users/luizeduardocartolano/Dropbox/DUDU/Unicamp/Iniciacao_Cientifica/workspace/Dados/google/'
-
+def workerGoogle(dates, path_google):
     # for going through all routes files
     #for filename in os.listdir(path_google):
 
@@ -55,11 +48,21 @@ def workerGoogle():
     print("Reading json: ")
     docs = manager.read(path_google,'routes_from_0.json')
 
+    manager.slicingDocs(dates,docs)
 
 def main():
+    # path to the google json file
+    path_google = '/Users/luizeduardocartolano/Dropbox/DUDU/Unicamp/Iniciacao_Cientifica/workspace/Dados/google/'
+    # path to the twitter json file
+    path_twitter = '/Users/luizeduardocartolano/Dropbox/DUDU/Unicamp/Iniciacao_Cientifica/workspace/Dados/'
+    # path to the heatMap directory
+    path_heatMapT = '/Users/luizeduardocartolano/Dropbox/DUDU/Unicamp/Iniciacao_Cientifica/workspace/Dados/heatMaps/'
+    
     # list with cities where data was collected
     cities = ['campinas']
-    workerGoogle()
+    dates = ['2018-02-12','2018-02-13','2018-02-14','2018-02-15']
+    
+    workerGoogle(dates,path_google)
 
     # for going through the cities and carrying out the process for each one of them
     # for city in cities:
