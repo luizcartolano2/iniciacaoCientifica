@@ -38,17 +38,17 @@ def workerTwitter(city, path_twitter, path_heatMapT):
     return
 
 def workerGoogle(dates, path_google):
-    # for going through all routes files
-    #for filename in os.listdir(path_google):
-
+    
     # instance the managerTweets object
     manager = ManageGoogle()
 
-    # reading the json file and store in a dictionary
-    print("Reading json: ")
-    docs = manager.read(path_google,'routes_from_0.json')
-
-    manager.slicingDocs(dates,docs)
+    # for going through all routes files
+    for filename in os.listdir(path_google):
+        # reading the json file and store in a dictionary
+        print("Reading json: " + filename)
+        docs = manager.read(path_google,'routes_from_0.json')
+        print("Getting interest dates: " + filename)   
+        routes = manager.slicingDocs(dates,docs)
 
 def main():
     # path to the google json file
