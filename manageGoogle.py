@@ -68,6 +68,9 @@ class ManageGoogle(object):
             timestamp /= 1000       # convert from microseconds to seconds
         return datetime.fromtimestamp(timestamp)
 
+    '''
+        Slice the routes grouping the days I'm interested
+    '''
     def slicingDocs(self, dates, docs):
         list_routes = {}
         for doc in docs:
