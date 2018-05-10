@@ -23,14 +23,23 @@ class ManageGoogle(object):
             jsonData = json.load(file_json)
             # traverses each of the data in the json file
             for data in jsonData:
-                # initialize the dictionary of each tweet
-                route = {}
-                # associates the tweet timestamp with the "time" key in the dict
-                route["time"] = data["timestamp"]
-                # add the timezone of each tweet
-                route["timezone"] = "America/Sao_Paulo"
-                # add the dictionary to the list
-                routes.append(route)
+                try:
+                    # initialize the dictionary of each route
+                    route = {}
+                    # associates the route timestamp with the "time" key in the dict
+                    route["time"] = data["timestamp"]
+                    # associates the route distance with the distance key
+                    route["distance"] = data["legs"]["distance"]["value"]
+                    # associates the route duration_in_traffic with the traffic key
+                    route["traffic"] = data["legs"]["duration_in_traffic"]["value"]
+                    # associates the route duration with the duration key
+                    route["duration"] = data["legs"]["distance"]["duration"]
+                    # add the timezone of each tweet
+                    route["timezone"] = "America/Sao_Paulo"
+                    # add the dictionary to the list
+                    routes.append(route)
+                except:
+                    pass
 
         # returns a list of dictionaries
         return routes
@@ -70,4 +79,5 @@ class ManageGoogle(object):
                 except:
                     list_routes[date[0]] = [doc]
         
+        del docs[:]
         return list_routes
