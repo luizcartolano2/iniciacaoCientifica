@@ -37,18 +37,22 @@ def workerTwitter(city, path_twitter, path_heatMapT):
 
     return
 
-def workerGoogle(dates, path_google):
+def workerGoogle(dates, path_google, path_googleD):
     
     # instance the managerTweets object
     manager = ManageGoogle()
 
     # for going through all routes files
     for filename in os.listdir(path_google):
-        # reading the json file and store in a dictionary
-        print("Reading json: " + filename)
-        docs = manager.read(path_google,'routes_from_0.json')
-        print("Getting interest dates: " + filename)   
-        routes = manager.slicingDocs(dates,docs)
+        if filename != ".DS_Store":
+            # reading the json file and store in a dictionary
+            print("Reading json: " + filename)
+            docs = manager.read(path_google,'routes_from_0.json')
+
+            print("Getting interest dates: " + filename)   
+            routes = manager.slicingDocs(dates,docs)
+
+            manager.printFileRoutes(routes,path_googleD,filename)
 
 def main():
     # path to the google json file
@@ -57,12 +61,14 @@ def main():
     path_twitter = '/Users/luizeduardocartolano/Dropbox/DUDU/Unicamp/Iniciacao_Cientifica/workspace/Dados/'
     # path to the heatMap directory
     path_heatMapT = '/Users/luizeduardocartolano/Dropbox/DUDU/Unicamp/Iniciacao_Cientifica/workspace/Dados/heatMaps/'
-    
+    # path to write datas from google
+    path_googleD = '/Users/luizeduardocartolano/Dropbox/DUDU/Unicamp/Iniciacao_Cientifica/workspace/Dados/routesTimes/'
+
     # list with cities where data was collected
     cities = ['campinas']
     dates = ['2018-02-12','2018-02-13','2018-02-14','2018-02-15']
     
-    workerGoogle(dates,path_google)
+    workerGoogle(dates,path_google,path_googleD)
 
     # for going through the cities and carrying out the process for each one of them
     # for city in cities:

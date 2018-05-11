@@ -1,8 +1,7 @@
 #!/bin/bash
 
-#Criado por Frances em 11/01/2017 - frances.santos.27@gmail.com
 #Atualizado em 13/11/2017
-#Script para verificar se determinados processos est  o em execu    o
+#Script para verificar se determinados processos estao em execucao
 #Dar permissao
 #chmod 777 monitora.sh &
 #Executar com nohup

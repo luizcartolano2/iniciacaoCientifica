@@ -5,6 +5,7 @@ from pytz import timezone
 from time import time
 from datetime import datetime
 import gmplot
+import os
 
 class ManageGoogle(object):
     """docstring for ManageTweets."""
@@ -23,23 +24,20 @@ class ManageGoogle(object):
             jsonData = json.load(file_json)
             # traverses each of the data in the json file
             for data in jsonData:
-                try:
-                    # initialize the dictionary of each route
-                    route = {}
-                    # associates the route timestamp with the "time" key in the dict
-                    route["time"] = data["timestamp"]
-                    # associates the route distance with the distance key
-                    route["distance"] = data["legs"]["distance"]["value"]
-                    # associates the route duration_in_traffic with the traffic key
-                    route["traffic"] = data["legs"]["duration_in_traffic"]["value"]
-                    # associates the route duration with the duration key
-                    route["duration"] = data["legs"]["distance"]["duration"]
-                    # add the timezone of each tweet
-                    route["timezone"] = "America/Sao_Paulo"
-                    # add the dictionary to the list
-                    routes.append(route)
-                except:
-                    pass
+                # initialize the dictionary of each route
+                route = {}
+                # associates the route timestamp with the "time" key in the dict
+                route["time"] = data["timestamp"]
+                # associates the route distance with the distance key
+                # route["distance"] = data["legs"]["distance"]["value"]
+                # # associates the route duration_in_traffic with the traffic key
+                # route["traffic"] = data["legs"]["duration_in_traffic"]["value"]
+                # # associates the route duration with the duration key
+                # route["duration"] = data["legs"]["distance"]["duration"]
+                # # add the timezone of each tweet
+                route["timezone"] = "America/Sao_Paulo"
+                # add the dictionary to the list
+                routes.append(route)
 
         # returns a list of dictionaries
         return routes
@@ -75,12 +73,44 @@ class ManageGoogle(object):
         list_routes = {}
         for doc in docs:
             date = str(self.getDate(doc["time"],doc["timezone"]))
+            day = self.getDate(doc["time"],doc["timezone"])
             date = date.split(' ',1)
             if date[0] in dates:
+                if day.hour >= 8 and day.hour <= 12:
+                    # the dictionary key is defined by the day, month, year and morning period
+                    key = str(date[0])+str("-morning")
+                elif day.hour > 12 and day.hour <= 20:
+                    # the dictionary key is defined by the day, month, year and afternoon period
+                    key = str(date[0])+str("-afternoon")
+                elif day.hour > 20 and day.hour <= 24:
+                    # the dictionary key is defined by the day, month, year and night period
+                    key = str(date[0])+str("-night")
+                else:
+                    # the dictionary key is defined by the day, month, year and dawm period
+                    key = str(date[0])+str("-dawm")
+                
                 try:
-                    list_routes[date[0]] += [doc]
+                    list_routes[key] += [doc]
                 except:
-                    list_routes[date[0]] = [doc]
+                    list_routes[key] = [doc]
         
         del docs[:]
         return list_routes
+
+    def printFileRoutes(self, docs, path, filename):
+        file = str(filename).split(".")
+        filename = file[0] + "_times.txt"
+        filepath = os.path.join(path, filename)
+        f = open(filepath,"w+")
+
+        for key,value in docs.iteritems():
+            for data in value:                
+                f.write("\n")
+                f.write(key + ": \n")
+                f.write('\t time: ' + str(data["time"]))
+                # f.write('distance:' + str(data["distance"]))
+                # f.write('traffic:' + str(data["traffic"]))
+                # f.write('duration:' + str(data["duration"]))
+                f.write("\n")
+
+        f.close()
