@@ -1,5 +1,5 @@
 ## About
-Rep to save my work from my undergraduate research. Here I'm going to share datas and codes from my work that seeks to corrolate data from Twitter and Google Maps in order to preview the traffic in Campinas - SP.
+Repository to save work from my undergraduate research. Here I am going to share datas and codes from my work, that seeks to corrolate data from Twitter and Google Maps in order to predict the traffic in Campinas - SP.
 
 ## Contributors:
 Luiz Eduardo Cartolano   
