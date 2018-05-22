@@ -14,7 +14,7 @@ fi
 #Check em cada 10m
 INTERVALO=600
 #Define os documentos que pretende monitorar
-PROCESSOS="tweets_cp.py"
+PROCESSOS=("tweets_cp.py" "getRoutesGoogleMaps_campinas.py" "weatherCampinas.py")
 while true; do
    #Executa para cada processo passado como par  metro.
    for i in "${PROCESSOS[@]}"; do
@@ -39,7 +39,7 @@ while true; do
          elif [ "$i" == "python getRoutesGoogleMaps_campinas.py" ]; then
             cd /local1/luiz/routes/
             nohup python getRoutesGoogleMaps_campinas.py &
-         elif [ "$i" == "python getRoutesGoogleMaps_campinas.py" ]; then
+         elif [ "$i" == "python weatherCampinas.py" ]; then
             cd /local1/luiz/weather/
             nohup python weatherCampinas.py &
         fi

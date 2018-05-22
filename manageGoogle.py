@@ -15,29 +15,34 @@ class ManageGoogle(object):
     '''
         Read .json file and store his content in a dictionary
     '''
-    def read(self, path, fname):
+    def read(self, path):
         # starts an empty list for the tweets
         routes = []
-        # opens the .json file in write mode
-        with open(path+fname, 'r') as file_json:
-            # assigns the content that was in .json to a list
-            jsonData = json.load(file_json)
-            # traverses each of the data in the json file
-            for data in jsonData:
-                # initialize the dictionary of each route
-                route = {}
-                # associates the route timestamp with the "time" key in the dict
-                route["time"] = data["timestamp"]
-                # associates the route distance with the distance key
-                # route["distance"] = data["legs"]["distance"]["value"]
-                # # associates the route duration_in_traffic with the traffic key
-                # route["traffic"] = data["legs"]["duration_in_traffic"]["value"]
-                # # associates the route duration with the duration key
-                # route["duration"] = data["legs"]["distance"]["duration"]
-                # # add the timezone of each tweet
-                route["timezone"] = "America/Sao_Paulo"
-                # add the dictionary to the list
-                routes.append(route)
+        
+        # for going through all routes files
+        for filename in os.listdir(path):
+            if filename != ".DS_Store":
+                # print("filename: " + filename)
+                # opens the .json file in write mode
+                with open(path+filename, 'r') as file_json:
+                    # assigns the content that was in .json to a list
+                    jsonData = json.load(file_json)
+                    # traverses each of the data in the json file
+                    for data in jsonData:
+                        # initialize the dictionary of each route
+                        route = {}
+                        # associates the route timestamp with the "time" key in the dict
+                        route["time"] = data["timestamp"]
+                        # associates the route distance with the distance key
+                        route["distance"] = data["legs"][0]["distance"]["value"]
+                        # associates the route duration_in_traffic with the traffic key
+                        route["traffic"] = data["legs"][0]["duration_in_traffic"]["value"]
+                        # associates the route duration with the duration key
+                        # route["duration"] = data["legs"][0]["distance"]["duration"]
+                        # # add the timezone of each tweet
+                        route["timezone"] = "America/Sao_Paulo"
+                        # add the dictionary to the list
+                        routes.append(route)
 
         # returns a list of dictionaries
         return routes
@@ -102,14 +107,14 @@ class ManageGoogle(object):
         filename = file[0] + "_times.txt"
         filepath = os.path.join(path, filename)
         f = open(filepath,"w+")
-
+        # print(docs)
         for key,value in docs.iteritems():
             for data in value:                
                 f.write("\n")
                 f.write(key + ": \n")
-                f.write('\t time: ' + str(data["time"]))
-                # f.write('distance:' + str(data["distance"]))
-                # f.write('traffic:' + str(data["traffic"]))
+                f.write('\t time: ' + str(data["time"]) + '\n')
+                f.write('\t distance:' + str(data["distance"]) + '\n')
+                f.write('\t traffic:' + str(data["traffic"]) + '\n')
                 # f.write('duration:' + str(data["duration"]))
                 f.write("\n")
 

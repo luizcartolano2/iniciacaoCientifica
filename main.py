@@ -41,18 +41,16 @@ def workerGoogle(dates, path_google, path_googleD):
     
     # instance the managerTweets object
     manager = ManageGoogle()
+    # reading the json file and store in a dictionary
+    print("Reading json: ")
+    docs = manager.read(path_google)
+    print(docs)
 
-    # for going through all routes files
-    for filename in os.listdir(path_google):
-        if filename != ".DS_Store":
-            # reading the json file and store in a dictionary
-            print("Reading json: " + filename)
-            docs = manager.read(path_google,'routes_from_0.json')
+    print("Getting interest dates: ")   
+    routes = manager.slicingDocs(dates,docs)
+    print(docs)
 
-            print("Getting interest dates: " + filename)   
-            routes = manager.slicingDocs(dates,docs)
-
-            manager.printFileRoutes(routes,path_googleD,filename)
+    # manager.printFileRoutes(routes,path_googleD,filename)
 
 def main():
     # path to the google json file
