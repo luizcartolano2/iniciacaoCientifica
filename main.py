@@ -44,11 +44,11 @@ def workerGoogle(dates, path_google, path_googleD):
     # reading the json file and store in a dictionary
     print("Reading json: ")
     docs = manager.read(path_google)
-    print(docs)
+    # print(docs)
 
     print("Getting interest dates: ")   
     routes = manager.slicingDocs(dates,docs)
-    print(docs)
+    print(routes)
 
     # manager.printFileRoutes(routes,path_googleD,filename)
 
