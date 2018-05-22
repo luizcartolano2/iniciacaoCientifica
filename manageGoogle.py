@@ -32,14 +32,16 @@ class ManageGoogle(object):
                         # initialize the dictionary of each route
                         route = {}
                         # associates the route timestamp with the "time" key in the dict
+                        route["polyline"] = data["overview_polyline"]["points"]
+                         # associates the route summary with the "summary" key in the dict
+                        route["summary"] = data["summary"]
+                        # associates the route timestamp with the "time" key in the dict
                         route["time"] = data["timestamp"]
                         # associates the route distance with the distance key
                         route["distance"] = data["legs"][0]["distance"]["value"]
                         # associates the route duration_in_traffic with the traffic key
                         route["traffic"] = data["legs"][0]["duration_in_traffic"]["value"]
-                        # associates the route duration with the duration key
-                        # route["duration"] = data["legs"][0]["distance"]["duration"]
-                        # # add the timezone of each tweet
+                        # add the timezone of each tweet
                         route["timezone"] = "America/Sao_Paulo"
                         # add the dictionary to the list
                         routes.append(route)
@@ -102,20 +104,22 @@ class ManageGoogle(object):
         del docs[:]
         return list_routes
 
-    def printFileRoutes(self, docs, path, filename):
-        file = str(filename).split(".")
-        filename = file[0] + "_times.txt"
-        filepath = os.path.join(path, filename)
-        f = open(filepath,"w+")
-        # print(docs)
+    '''
+        Print the interest datas from GoogleMaps routes
+    '''
+    def printFileRoutes(self, docs, path):
         for key,value in docs.iteritems():
+            file = key
+            filename = file + "_times.txt"
+            filepath = os.path.join(path, filename)
+            f = open(filepath,"w")
             for data in value:                
                 f.write("\n")
-                f.write(key + ": \n")
+                f.write('\t summary: ' + repr(data["summary"]) + '\n')
+                f.write('\t polyline: ' + str(data["polyline"]) + '\n')
                 f.write('\t time: ' + str(data["time"]) + '\n')
                 f.write('\t distance:' + str(data["distance"]) + '\n')
                 f.write('\t traffic:' + str(data["traffic"]) + '\n')
-                # f.write('duration:' + str(data["duration"]))
                 f.write("\n")
 
         f.close()
