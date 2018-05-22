@@ -1,0 +1,70 @@
+
+	 summary: u'Av. John Boyd Dunlop'
+	 polyline: ~jzjCfmn~GVNf@p@z@jAjBnCn@`AnJdNrAhB`AvAHNTh@HLDHXx@j@pB|@~Db@tBx@rDbAnE
+	 time: 1518436189.67
+	 distance:1216
+	 traffic:136
+
+
+	 summary: u'Av. John Boyd Dunlop'
+	 polyline: bo{jC~jp~GmFgVW{@u@kBQ_@MU_DmE}KiPoBsCgBiC
+	 time: 1518436189.67
+	 distance:1226
+	 traffic:110
+
+
+	 summary: u'Av. Prestes Maia'
+	 polyline: rx}jClrh~Gu@eAk@i@aAm@qIyEyJuFcBw@_Cy@eFiA
+	 time: 1518436189.67
+	 distance:860
+	 traffic:57
+
+
+	 summary: u'Av. Prestes Maia'
+	 polyline: pn|jCzyg~GnE`A~Bt@lB`AzJpFlItEf@Xf@b@ZX`AfA
+	 time: 1518436189.67
+	 distance:854
+	 traffic:55
+
+
+	 summary: u'Av. Albino J. B. de Oliveira'
+	 polyline: d`ijC`hj~GpDo@^Or@Mx@MNGlEc@f@DhAKlEi@lAMdC]fAGfA@bAFzEb@tANVF
+	 time: 1518436189.67
+	 distance:915
+	 traffic:131
+
+
+	 summary: u'Av. Albino J. B. de Oliveira'
+	 polyline: vrjjC~aj~GwBSkF_@iAEkA@iALwH|@wDd@mEb@YCmB^WHmAR_BVC?
+	 time: 1518436189.67
+	 distance:916
+	 traffic:200
+
+
+	 summary: u'Av. Benjamin Constant'
+	 polyline: lpxjCpjg~GfC~GhDrJGB
+	 time: 1518436189.67
+	 distance:384
+	 traffic:64
+
+
+	 summary: u'Av. Jos\xe9 de Souza Campos'
+	 polyline: hrwjCt~c~GoAK}Ck@w@SED_@\D@TDpE`AdDr@zBTlA@dACjBMjG}@hDg@ZId@Y`AeA`@Qt@I
+	 time: 1518436189.67
+	 distance:1036
+	 traffic:125
+
+
+	 summary: u'Av. Jos\xe9 de Souza Campos'
+	 polyline: rtxjCpxc~GuCVg@@gEY{@Iu@@_AJ]HiCnAcBr@s@P{BZuAB
+	 time: 1518436189.67
+	 distance:633
+	 traffic:56
+
+
+	 summary: u'Av. Francisco Glic\xe9rio'
+	 polyline: jdwjC`ig~GxAcCb@m@b@u@|AaCNKr@a@~D_BfDuA~@[bBc@bP}GxEuB\GjCcAjDuABA
+	 time: 1518436189.67
+	 distance:1280
+	 traffic:378
+
