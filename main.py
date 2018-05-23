@@ -37,7 +37,7 @@ def workerTwitter(city, path_twitter, path_heatMapT):
 
     return
 
-def workerGoogle(dates, path_google, path_googleD):
+def workerGoogle(dates, path_google, path_googleD, path_googlePol):
     
     # instance the managerTweets object
     manager = ManageGoogle()
@@ -52,6 +52,25 @@ def workerGoogle(dates, path_google, path_googleD):
     print("Printing routes datas on a specific file:")
     manager.printFileRoutes(routes,path_googleD)
 
+    
+    for key,value in routes.iteritems():
+        lts = []
+        lgs = []
+        for data in value:
+            points = manager.decode_polyline(data["polyline"])
+            lt_p,lg_p = zip(*points)
+            lts = tuple(lts) + lt_p
+            lgs = tuple(lgs) + lg_p
+        lat_points = list(lts)
+        lgt_points = list(lgs)
+        manager.plottingHeatmap(path_googlePol, key, lat_points, lgt_points, 'campinas')
+        
+
+    
+
+
+
+
 def main():
     # path to the google json file
     path_google = '/Users/luizeduardocartolano/Dropbox/DUDU/Unicamp/Iniciacao_Cientifica/workspace/Dados/google/'
@@ -62,11 +81,14 @@ def main():
     # path to write datas from google
     path_googleD = '/Users/luizeduardocartolano/Dropbox/DUDU/Unicamp/Iniciacao_Cientifica/workspace/Dados/routesTimes/'
 
+    path_googlePol = '/Users/luizeduardocartolano/Dropbox/DUDU/Unicamp/Iniciacao_Cientifica/workspace/Dados/polMaps/'
+
+
     # list with cities where data was collected
     cities = ['campinas']
     dates = ['2018-02-12','2018-02-13','2018-02-14','2018-02-15']
     
-    workerGoogle(dates,path_google,path_googleD)
+    workerGoogle(dates, path_google, path_googleD, path_googlePol)
 
     # for going through the cities and carrying out the process for each one of them
     # for city in cities:

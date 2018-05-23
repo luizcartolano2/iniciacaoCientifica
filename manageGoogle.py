@@ -7,6 +7,7 @@ from datetime import datetime
 import gmplot
 import os
 
+
 class ManageGoogle(object):
     """docstring for ManageTweets."""
     def __init__(self):
@@ -123,3 +124,63 @@ class ManageGoogle(object):
                 f.write("\n")
 
         f.close()
+
+    '''
+        Plot heat map a partir de uma lista de coordenadas.
+    '''
+    def plottingHeatmap(self, path, key, lats, lons, city):
+        
+        # sets the filename
+        fname = 'heatmap_'+city+'_'+key+'.html'        
+        
+        # sets the city center coordinate and zoom level.
+        if city == 'campinas':
+            gmap = gmplot.GoogleMapPlotter(-22.907104, -47.063240, 10)
+        else:
+            print("PLOT ERROR: invalid city\n")
+            return
+        
+        gmap.scatter(lats, lons, '#3B0B39', size=40, marker=False)
+        # save as .html file
+        gmap.draw(path+fname)
+
+        return
+
+
+
+
+
+    # This function is free of any dependencies.
+    def decode_polyline(self,polyline_str):
+        '''Pass a Google Maps encoded polyline string; returns list of lat/lon pairs'''
+        index, lat, lng = 0, 0, 0
+        coordinates = []
+        changes = {'latitude': 0, 'longitude': 0}
+
+        # Coordinates have variable length when encoded, so just keep
+        # track of whether we've hit the end of the string. In each
+        # while loop iteration, a single coordinate is decoded.
+        while index < len(polyline_str):
+            # Gather lat/lon changes, store them in a dictionary to apply them later
+            for unit in ['latitude', 'longitude']: 
+                shift, result = 0, 0
+
+                while True:
+                    byte = ord(polyline_str[index]) - 63
+                    index+=1
+                    result |= (byte & 0x1f) << shift
+                    shift += 5
+                    if not byte >= 0x20:
+                        break
+
+                if (result & 1):
+                    changes[unit] = ~(result >> 1)
+                else:
+                    changes[unit] = (result >> 1)
+
+            lat += changes['latitude']
+            lng += changes['longitude']
+
+            coordinates.append((lat / 100000.0, lng / 100000.0))
+
+        return coordinates
