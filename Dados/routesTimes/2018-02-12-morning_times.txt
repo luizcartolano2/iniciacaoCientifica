@@ -4,6 +4,8 @@
 	 time: 1518436189.67
 	 distance:1216
 	 traffic:136
+	 latitude:-22.9139241
+	 longitude:-47.1011585
 
 
 	 summary: u'Av. John Boyd Dunlop'
@@ -11,6 +13,8 @@
 	 time: 1518436189.67
 	 distance:1226
 	 traffic:110
+	 latitude:-22.9196994
+	 longitude:-47.1110427
 
 
 	 summary: u'Av. Prestes Maia'
@@ -18,6 +22,8 @@
 	 time: 1518436189.67
 	 distance:860
 	 traffic:57
+	 latitude:-22.9314594
+	 longitude:-47.0712709
 
 
 	 summary: u'Av. Prestes Maia'
@@ -25,6 +31,8 @@
 	 time: 1518436189.67
 	 distance:854
 	 traffic:55
+	 latitude:-22.9247287
+	 longitude:-47.0673407
 
 
 	 summary: u'Av. Albino J. B. de Oliveira'
@@ -32,6 +40,8 @@
 	 time: 1518436189.67
 	 distance:915
 	 traffic:131
+	 latitude:-22.825154
+	 longitude:-47.0798524
 
 
 	 summary: u'Av. Albino J. B. de Oliveira'
@@ -39,6 +49,8 @@
 	 time: 1518436189.67
 	 distance:916
 	 traffic:200
+	 latitude:-22.83324
+	 longitude:-47.0788791
 
 
 	 summary: u'Av. Benjamin Constant'
@@ -46,6 +58,8 @@
 	 time: 1518436189.67
 	 distance:384
 	 traffic:64
+	 latitude:-22.9045477
+	 longitude:-47.0648857
 
 
 	 summary: u'Av. Jos\xe9 de Souza Campos'
@@ -53,6 +67,8 @@
 	 time: 1518436189.67
 	 distance:1036
 	 traffic:125
+	 latitude:-22.8997304
+	 longitude:-47.0476314
 
 
 	 summary: u'Av. Jos\xe9 de Souza Campos'
@@ -60,6 +76,8 @@
 	 time: 1518436189.67
 	 distance:633
 	 traffic:56
+	 latitude:-22.9052169
+	 longitude:-47.0466491
 
 
 	 summary: u'Av. Francisco Glic\xe9rio'
@@ -67,4 +85,6 @@
 	 time: 1518436189.67
 	 distance:1280
 	 traffic:378
+	 latitude:-22.8974969
+	 longitude:-47.0646526
 

@@ -42,6 +42,10 @@ class ManageGoogle(object):
                         route["distance"] = data["legs"][0]["distance"]["value"]
                         # associates the route duration_in_traffic with the traffic key
                         route["traffic"] = data["legs"][0]["duration_in_traffic"]["value"]
+                        # associates the route duration_in_traffic with the traffic key
+                        route["lat"] = data["legs"][0]["start_location"]["lat"]
+                        # associates the route duration_in_traffic with the traffic key
+                        route["lng"] = data["legs"][0]["start_location"]["lng"]
                         # add the timezone of each tweet
                         route["timezone"] = "America/Sao_Paulo"
                         # add the dictionary to the list
@@ -121,6 +125,8 @@ class ManageGoogle(object):
                 f.write('\t time: ' + str(data["time"]) + '\n')
                 f.write('\t distance:' + str(data["distance"]) + '\n')
                 f.write('\t traffic:' + str(data["traffic"]) + '\n')
+                f.write('\t latitude:' + str(data["lat"]) + '\n')
+                f.write('\t longitude:' + str(data["lng"]) + '\n')
                 f.write("\n")
 
         f.close()
@@ -140,17 +146,18 @@ class ManageGoogle(object):
             print("PLOT ERROR: invalid city\n")
             return
         
-        gmap.scatter(lats, lons, '#3B0B39', size=40, marker=False)
+        # gmap.circle(lats, lons)
+        # gmap.plot(lats, lons, 'cornflowerblue', edge_width=10)
+        gmap.scatter(lats=lats, lngs=lons, color='#000000',size=40, marker=False)
+        # gmap.grid(slat=lats[0], elat=lats[-1], latin=0.001, slng=lons[0], elng=lons[-1], lngin=0.001)
+
         # save as .html file
         gmap.draw(path+fname)
 
         return
 
-
-
-
-
     # This function is free of any dependencies.
+    # code from https://github.com/geodav-tech/decode-google-maps-polyline
     def decode_polyline(self,polyline_str):
         '''Pass a Google Maps encoded polyline string; returns list of lat/lon pairs'''
         index, lat, lng = 0, 0, 0
