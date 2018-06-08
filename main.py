@@ -46,25 +46,27 @@ def workerGoogle(dates, path_google, path_googleD, path_googlePol):
     print("Reading json: ")
     docs = manager.read(path_google)
     
-    print("Getting interest dates: ")   
-    routes = manager.slicingDocs(dates,docs)
+    # print("Getting interest dates: ")   
+    # routes = manager.slicingDocs(dates,docs)
     
-    print("Printing routes datas on a specific file:")
-    manager.printFileRoutes(routes,path_googleD)
+    # print("Printing routes datas on a specific file:")
+    # manager.printFileRoutes(routes,path_googleD)
 
     
-    for key,value in routes.iteritems():
-        lts = []
-        lgs = []
-        for data in value:
-            points = manager.decode_polyline(data["polyline"])
-            lt_p,lg_p = zip(*points)
-            lts = tuple(lts) + lt_p
-            lgs = tuple(lgs) + lg_p
-        lat_points = list(lts)
-        lgt_points = list(lgs)
-        manager.plottingHeatmap(path_googlePol, key, lat_points, lgt_points, 'campinas')
-        
+    # for key,value in routes.iteritems():
+    #     lts = []
+    #     lgs = []
+    #     for data in value:
+    #         points = manager.decode_polyline(data["polyline"])
+    #         lt_p,lg_p = zip(*points)
+    #         lts = tuple(lts) + lt_p
+    #         lgs = tuple(lgs) + lg_p
+    #     lat_points = list(lts)
+    #     lgt_points = list(lgs)
+    #     manager.plottingHeatmap(path_googlePol, key, lat_points, lgt_points, 'campinas')
+    # print(docs)
+    print("Making html pages:")
+    manager.makeHTML(docs)
 
     
 

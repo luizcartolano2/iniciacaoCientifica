@@ -33,6 +33,8 @@ class ManageGoogle(object):
                     for data in jsonData:
                         # initialize the dictionary of each route
                         route = {}
+                        #
+                        route["name"] = data["summary"].encode('utf-8').replace(" ","")
                         # associates the route timestamp with the "time" key in the dict
                         route["polyline"] = data["overview_polyline"]["points"]
                          # associates the route summary with the "summary" key in the dict
@@ -44,9 +46,13 @@ class ManageGoogle(object):
                         # associates the route duration_in_traffic with the traffic key
                         route["traffic"] = data["legs"][0]["duration_in_traffic"]["value"]
                         # associates the route duration_in_traffic with the traffic key
-                        route["lat"] = data["legs"][0]["start_location"]["lat"]
+                        route["lat_init"] = data["legs"][0]["start_location"]["lat"]
                         # associates the route duration_in_traffic with the traffic key
-                        route["lng"] = data["legs"][0]["start_location"]["lng"]
+                        route["lng_init"] = data["legs"][0]["start_location"]["lng"]
+                        # associates the route duration_in_traffic with the traffic key
+                        route["lat_fim"] = data["legs"][0]["end_location"]["lat"]
+                        # associates the route duration_in_traffic with the traffic key
+                        route["lng_fim"] = data["legs"][0]["end_location"]["lng"]
                         # add the timezone of each tweet
                         route["timezone"] = "America/Sao_Paulo"
                         # add the dictionary to the list
@@ -78,6 +84,20 @@ class ManageGoogle(object):
         if timestamp > 1519231541:  # Date of today - UTC: Wednesday 21st February 2018 04:45:41 PM
             timestamp /= 1000       # convert from microseconds to seconds
         return datetime.fromtimestamp(timestamp)
+
+    '''
+        Make an HTML page with the routes information
+    '''
+    def makeHTML(self, routes):
+        htmlPage = HTML_Page()
+        path = '/Users/luizeduardocartolano/Dropbox/DUDU/Unicamp/Iniciacao_Cientifica/workspace/Dados/html_routes/'
+        for route in routes:
+            time = self.getDate(chartime=route["time"],tz=route["timezone"])
+            name = route["name"] + "_" + str(time).replace(" ","")
+            # print(name)
+            htmlPage.print_html(path=path, name=name, title=name, polyline=route["polyline"], lat_init=route["lat_init"], lng_init=route["lng_init"], lat_fim=route["lat_fim"], lng_fim=route["lng_fim"], distance=route["distance"], time_of_trip=route["traffic"], timestamp=time, traffic=route["traffic"], dist=route["distance"])
+
+        return
 
     '''
         Slice the routes grouping the days I'm interested
