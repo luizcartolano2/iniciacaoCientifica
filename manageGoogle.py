@@ -6,6 +6,7 @@ from time import time
 from datetime import datetime
 import gmplot
 import os
+from HTML_Page import HTML_Page
 
 
 class ManageGoogle(object):

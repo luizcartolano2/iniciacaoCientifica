@@ -19,7 +19,7 @@ while true; do
    #Executa para cada processo passado como par  metro.
    for i in "${PROCESSOS[@]}"; do
 
-      #Executa o comando ps para todos os usu  rios e filtra com o grep o processo monitorado, depois s  o executados filtros inversos para excluir
+      #Executa o comando ps para todos os usurios e filtra com o grep o processo monitorado, depois s  o executados filtros inversos para excluir
       #aparicoees da execucao do proprio grep e do nosso script. O resultado, se existir,sera salvo em um arquivo temporario.
       ps aux | grep "$i" | grep -v "grep" | grep -v "monitora.sh" > /tmp/procluiz.tmp
 
