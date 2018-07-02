@@ -1,0 +1,88 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TCC %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Template para TCC da Universidade Federal da Paraíba
+%
+% Autores: Elaine Soares elaineanita1@gmail.com
+%          Rafael Brayner rafabrayner92@gmail.com
+%          Roberto Júnior contato@robertojunior.net
+%
+% ShareLaTeX porting: Gustavo Sobral ghsobral@gmail.com
+% 
+% Revisão: Eudisley Anjos eudisley@ci.ufpb.br
+%
+% Sinta-se livre para melhorar e contribuir com esse projeto. 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%% INICIO DA PRIMEIRA PAGINA %%%%%%%%%%%%%
+\documentclass{tcc}
+
+\begin{document}
+\pagestyle{empty} %retira numeração da página
+\input{dados_trabalho}
+
+\newpage
+\begin{center}
+\theauthor
+\end{center}
+\vspace{3in}
+\begin{center}
+\LARGE{\thetitle}\\
+\end{center}
+
+\vspace{2in}
+
+\begin{flushright}
+Trabalho apresentado do curso de \nomedocurso \\ pelo aluno Luiz Eduardo Cartolano, email \href{mailto:cartolanoluiz@gmail.com}{cartolanoluiz@gmail.com} 
+
+\vspace{0.2in}
+
+Orientador: \orientador
+
+
+\end{flushright}
+
+
+\vfill
+\begin{center}
+Campinas, SP, \MONTH de \the\year
+\end{center}
+
+%%%%% FIM DA PRIMEIRA PAGINA %%%%%%%%%%%%%
+
+\newpage
+
+%Sumário%
+\pagestyle{plain} %mostra numeração da página%
+\tableofcontents
+
+\newpage
+\input{1_introducao.tex}
+% \newpage
+\input{2_motivacao.tex}
+% \newpage
+\input{3_fundamentacoes.tex}
+% \newpage
+\input{4_trabalhos_relacionados.tex}
+% \newpage
+\input{5_proposta.tex}
+% \newpage
+\input{6_conclusoes.tex}
+\newpage
+\addcontentsline{toc}{section}{ANEXOS} %adiciona anexos ao sumario
+\input{7_anexos.tex}
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Referências %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\refname}{\centering REFERÊNCIAS} %Centraliza nome Referencias%
+\addcontentsline{toc}{section}{REFERÊNCIAS} %adiciona referencias ao sumario
+\clearpage
+\nocite{*}
+\bibliographystyle{unsrt}
+\bibliographystyle{plain}
+\bibliography{references}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\end{document}

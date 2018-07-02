@@ -1,0 +1,39 @@
+\section{FUNDAMENTAÇÃO TEÓRICA}
+Para realização do trabalho foi necessário adquirir alguns conhecimentos extras, que serão brevemente explicados nessa secção.
+
+\subsection{Sistemas de Transporte Inteligentes}
+    \subsubsection{Definição}
+        Os Sistemas de Transporte Inteligentes (ITS) têm como objetivo melhorar a segurança e mobilidade dos transportes, como também o aumento da produtividade das pessoas e diminuição dos efeitos nocivos do trânsito. Essa melhoria é alcançada através da integração de tecnologias de comunicação nos veículos e na infraestrutura da cidade. As principais características, que serão apresentadas a seguir, se relacionam à arquitetura e as Redes Veiculares.
+        
+        A arquitetura norte-americana (National ITS Achitecture) [of Transport 2016], descreve como ocorre a comunicação entre seus elementos e subsistemas. Ela se divide em 4 classe: \emph{Center} que define o centro de controle e gerenciamento de todo o sistema, no qual os serviços são executados; \emph{Field} que engloba toda a parte de infraestrutura do ambiente (RSU, sensores de monitoramento, câmeras); \emph{Vehicles} que são os veículos e sensores embarcados; e os \emph{Traverlers} que define-se pelos dispositivos usados pelas pessoas durante a viagem. 
+        
+        Já as \emph{Redes Veiculares} são um tipo de rede emergente que tem atraído o interesse de muitos grupos de pesquisa. Estas redes são formadas por veículos com capacidade de processamento e comunicação sem fio, trafegando em ruas e rodovias, enviando e recebendo informações de outros veículos. 
+        
+    \subsubsection{Aplicações}
+        Os Sistemas de Transporte Inteligentes possuem uma série de aplicações práticas, de maneira simplificada, podemos caracterizá-las como:
+        \begin{itemize}
+            \item Aplicações de segurança
+            \item Aplicações de eficiência de tráfego
+            \item Aplicações de entretenimento e conforto
+            \item Aplicações de sensoriamento urbano
+        \end{itemize}
+        As aplicações podem ser vistas com mais detalhes em \cite{165839}.
+        
+
+\subsection{Mapas de Calor}
+    \subsubsection{Definição}
+    A melhor forma de entender um mapa de calor é pensar em uma tabela ou planilha a qual contém cores ao invés de números. O gradiente de cor padrão configura o menor valor no mapa de calor como azul escuro, o maior valor como um vermelho brilhante e valores medianos como cinza claro, com uma transição correspondente (ou gradiente) entre estes extremos. Os mapas de calor são bastante apropriados para visualizar grandes quantidades de dados multidimensionais e podem ser utilizados para identificar grupos de linhas com valores similares, conforme elas são mostradas nas áreas de cor similar.
+    
+    \subsubsection{Gmplot}
+    O \emph{Gmplot} é uma interface do tipo \emph{matplotlib} para gerar o HTML e o javascript necessários para renderizar todos os dados que você deseja sobre o \emph{Google Maps}. Vários métodos de plotagem tornam a criação de visualizações de mapas exploratórios sem esforço. Um dos modos permitidos é o de criação de \emph{heatmaps}, que foi usado nesse trabalho. Seu uso será detalhado na seção \ref{sec:proposta}.
+    
+\subsection{Grafos}
+    \subsubsection{Definição}
+    Um grafo é um animal formado por dois conjuntos:  um conjunto de coisas chamadas vértices e um conjunto de coisas chamadas arestas;  cada aresta está associado a dois vértices:  o primeiro é a ponta inicial da aresta e o segundo é a ponta final.  Você pode imaginar que um grafo é um mapa rodoviário idealizado:  os vértices são cidades e as arestas são estradas(que podem ser de mão única ou dupla, dependendo do tipo de grafo utilizado). Para este trabalho faremos uma comparação um pouco diferente, enxergaremos uma cidade como um grafo, no qual a intersecção entre as ruas são os vértices, e as ruas serão arestas, como destacaremos na seção \ref{sec:proposta}. Para gerarmos nosso grado usamos duas ferramentas cruciais, o \emph{OpenStreetMap} e o \emph{Simulator of Urban MObility - SUMO}, que serão brevemente introduzidos nessa seção.
+    
+    \subsubsection{OpenStreetMap}
+    O OpenStreetMap\footnote{https://www.openstreetmap.org/} é um serviço de mapeamento construído de maneira colaborativa por usuários, profissionais e entusiastas. O OpenStreetMap permite selecionar uma região específica a partir da qual o usuário deseja exportar informações de mapeamento. Esses arquivos de mapeamento podem ser processados por outras ferramentas. A partir deles geramos os \emph{nós(vértices)} do nosso grafo.
+    
+    \subsubsection{Simulator of Urban MObility - SUMO}
+    Pesquisadores e profissionais da comunidade de Sistemas de Transportes Inteligentes utilizam simuladores de tráfego como forma de estudar o impacto de algoritmos de roteamento de veículos, alterações no controle de semáforos e mudanças na infraestrutura viária antes das mesmas serem implementadas no mundo real. Um simulador de tráfego amplamente utilizado pela comunidade é o \emph{SUMO}\footnote{http://sumo.dlr.de/index.html}. O \emph{SUMO} fornece um conjunto de ferramentas e bibliotecas que tem o objetivo de facilitar o desenvolvimento dos mais variados tipos de cenários, possibilitando o estudo de várias questões relacionadas ao tráfego de veículos e pedestres. No nosso trabalho o usamos em conjunto com o \emph{OpenStreetMap} para conectar os vértices usando ruas como \emph{arestas}.
+
